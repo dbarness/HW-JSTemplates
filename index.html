@@ -119,6 +119,43 @@
 	// YOUR JS GOES HERE
 	// here's the twitter URL template
 	// http://search.twitter.com/search.json?q=SEARCH_VALUE_HERE&rpp=20&include_entities=false&result_type=mixed
+	
+	$(document).ready(function() {
+	console.log('ready');
+	var keyword = $('#search').val(); 
+	console.log(keyword);
+	
+	
+	// make ajaxp happen
+	
+	$.ajax({
+		url: 
+		'http://search.twitter.com/search.json?q=' + '"' + keyword + '"' + '&rpp=20&include_entities=false&result_type=mixed',
+		dataType: 'jsonp',
+		type: 'GET',
+		jsonpCallback: 'handle_tweets'
+	});
+		
+});
+
+	function handle_tweets(data) {
+		$("button:#search-button").click(function () {
+		
+			var first_tweet = data.results[0];
+			
+			console.log(first_tweet.from_user);
+			console.log(first_tweet.text);
+			console.log(first_tweet.profile_image_url);
+			var user = first_tweet.from_user;
+			var userImage = '<img src=' + '"' + first_tweet.profile_image_url + '"' + '/>';
+			
+			$('#user-list').append(userImage);
+			$('#tweet-list').append('<li>');
+			$('#tweet-list li').html(userImage + first_tweet.text);
+			
+		 });
+	}
+
 </script>
 
 </body>
