@@ -122,24 +122,27 @@
 	
 	$(document).ready(function() {
 	console.log('ready');
-	var keyword = $('#search').val(); 
-	console.log(keyword);
+	
 	
 	
 	// make ajaxp happen
-	
-	$.ajax({
-		url: 
-		'http://search.twitter.com/search.json?q=' + '"' + keyword + '"' + '&rpp=20&include_entities=false&result_type=mixed',
-		dataType: 'jsonp',
-		type: 'GET',
-		jsonpCallback: 'handle_tweets'
-	});
+	$("button:#search-button").click(function () {
+	var keyword = $('#search').val(); 
+	console.log(keyword);
+		$.ajax({
+			url: 
+			'http://search.twitter.com/search.json?q=' + '"' + keyword + '"' + '&rpp=20&include_entities=false&result_type=mixed',
+			dataType: 'jsonp',
+			type: 'GET',
+			jsonpCallback: 'handle_tweets'
+		});
 		
+		//handle_tweets();
+	});
 });
 
 	function handle_tweets(data) {
-		$("button:#search-button").click(function () {
+		
 		
 			var first_tweet = data.results[0];
 			
@@ -148,12 +151,18 @@
 			console.log(first_tweet.profile_image_url);
 			var user = first_tweet.from_user;
 			var userImage = '<img src=' + '"' + first_tweet.profile_image_url + '"' + '/>';
-			
+			var li = $('<li></li>');
+			var profileLink = $('http://twitter.com/' + '"' + user + '"');
+			var imageLink = $('a href="' + '"' + profileLink + '"' + '"> </a>');
 			$('#user-list').append(userImage);
-			$('#tweet-list').append('<li>');
-			$('#tweet-list li').html(userImage + first_tweet.text);
+			li.append(userImage);
+			li.append(first_tweet.text);
+			$('#tweet-list').append(li);
+			userImage.append(imageLink);
 			
-		 });
+			//$('#user-list').append(userImage);
+			//$('#tweet-list').append('<li>');
+			//$('#tweet-list li').html(userImage + first_tweet.text);
 	}
 
 </script>
